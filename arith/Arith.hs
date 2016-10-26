@@ -31,6 +31,7 @@ eval1 :: Term -> Either String Term
 eval1 (TmIf TmTrue  t _)    = return t
 eval1 (TmIf TmFalse _ f)    = return f
 eval1 (TmIf con t f)        = eval1 con >>= (\con' -> return (TmIf con' t f))
+eval1 (TmSucc (TmPred t))   = return t
 eval1 (TmSucc t)            = eval1 t >>= (\t' -> return $ TmSucc t')
 eval1 (TmPred TmZero)       = return $ TmZero
 eval1 (TmPred (TmSucc t))
@@ -39,7 +40,8 @@ eval1 (TmPred (TmSucc t))
 eval1 (TmIsZero TmZero)     = return $ TmTrue
 eval1 (TmIsZero (TmSucc t))
   | isNumerical t           = return $ TmFalse
-  | otherwise               = eval1 t >>= (\t' -> return $ TmIsZero t')
+  | otherwise               = eval1 (TmSucc t) >>= (\t' -> return $ TmIsZero t')
+eval1 (TmIsZero t)          = eval1 t >>= (\t' -> return $ TmIsZero t')
 eval1 t                     = Left $ "Cannot eval: " ++ show t
 
 
@@ -52,3 +54,13 @@ evalWithWriter t = do
 
 evalWithStep :: Term -> String
 evalWithStep = execWriter . evalWithWriter
+
+
+
+-- Terms from arith/test.f
+
+sampleTerm1 = TmTrue
+sampleTerm2 = TmIf TmFalse TmTrue TmFalse
+sampleTerm3 = TmZero
+sampleTerm4 = TmSucc (TmPred TmZero)
+sampleTerm5 = TmIsZero (TmPred (TmSucc (TmSucc TmZero)))
