@@ -30,7 +30,7 @@ isVal t
 eval1 :: Term -> Either String Term
 eval1 (TmIf TmTrue  t _)    = return t
 eval1 (TmIf TmFalse _ f)    = return f
-eval1 (TmIf con t f)        = eval1 t >>= (\con' -> eval1 (TmIf con' t f))
+eval1 (TmIf con t f)        = eval1 con >>= (\con' -> return (TmIf con' t f))
 eval1 (TmSucc t)            = eval1 t >>= (\t' -> return $ TmSucc t')
 eval1 (TmPred TmZero)       = return $ TmZero
 eval1 (TmPred (TmSucc t))
