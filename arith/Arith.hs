@@ -43,9 +43,11 @@ eval1 (TmIsZero (TmSucc t))
 eval1 t                     = Left $ "Cannot eval: " ++ show t
 
 
+evalWithWriter :: Term -> Writer String ()
 evalWithWriter t = do
+  tell $ (show t) ++ "\n"
   case (eval1 t) of
-     (Right t') -> (tell $ show t ++ "\n") >> (evalWithWriter t')
+     (Right t') -> evalWithWriter t'
      (Left  s)  -> tell $ s
 
 evalWithStep :: Term -> String
