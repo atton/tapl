@@ -3,7 +3,7 @@
 
 FROM fedora:24
 
-RUN dnf install -y ocaml wget vim zsh git mercurial ghc cabal-install tar zlib zlib-devel ghc-parsec make findutils
+RUN dnf install -y ocaml wget vim zsh git mercurial ghc cabal-install tar zlib zlib-devel ghc-parsec make findutils man glibc-langpack-en
 
 RUN mkdir -p /root/tapl-original
 WORKDIR /root/tapl-original
