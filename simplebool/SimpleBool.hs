@@ -64,3 +64,19 @@ typeOf ctx (TmIf tm1 tm2 tm3)
                                             if (ty2 == ty3) then return ty2
                                                             else Left "arms of conditional have different types"
   | otherwise              = Left "guard of conditional not a boolean"
+
+
+sampleContext1 = [("x" , VarBind TyBool)]
+sampleTerm1    = TmVar 0 1
+
+sampleContext2 = []
+sampleTerm2    = TmIf TmTrue (TmAbs "x" TyBool (TmVar 0 1)) (TmAbs "y" TyBool TmFalse)
+
+sampleContext3 = []
+sampleTerm3    = TmAbs "x" TyBool (TmVar 0 1)
+
+sampleContext4 = []
+sampleTerm4    = TmApp (TmAbs "x" (TyArr TyBool TyBool) (TmIf (TmApp (TmVar 0 1) TmFalse) TmTrue TmFalse)) (TmAbs "x" TyBool (TmIf (TmVar 0 1) TmFalse TmTrue))
+
+sampleContext5 = []
+sampleTerm5    = TmIf (TmAbs "x" TyBool TmFalse) TmTrue TmFalse
