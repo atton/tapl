@@ -10,6 +10,7 @@ WORKDIR /root/tapl-original
 RUN wget http://www.cis.upenn.edu/~bcpierce/tapl/checkers/arith.tar.gz
 RUN wget http://www.cis.upenn.edu/~bcpierce/tapl/checkers/untyped.tar.gz
 RUN wget http://www.cis.upenn.edu/~bcpierce/tapl/checkers/simplebool.tar.gz
+RUN wget http://www.cis.upenn.edu/~bcpierce/tapl/checkers/fullsimple.tar.gz
 RUN find . -name "*.tar.gz" | xargs -L1 tar xzf
 RUN rm -rf *.tar.gz
 
